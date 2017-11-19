@@ -11,5 +11,14 @@ public class TestRunner {
       }
 		
       System.out.println(result.wasSuccessful());
+	  
+	  Result result2 = JUnitCore.runClasses(JunitTestSuite.class);
+
+      for (Failure failure2 : result2.getFailures()) {
+         System.out.println(failure2.toString());
+      }
+		
+      System.out.println(result2.wasSuccessful());
    }
+   
 }  	

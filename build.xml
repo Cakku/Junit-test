@@ -3,26 +3,35 @@
 <property name="libs" value="./libs" />
 <property name="bin" value="./bin" />
 <property name="classes" value="./classes" />
-<property name="test.class.name" value="TestJunit" />
+<property name = "full-compile" value = "true" />
+<property name="test.class.name" value="TestMessageUtil" />
 
+<path id = "classpath.base"/>
     <path id="class.path">
 	<pathelement location="." />
     <pathelement location="${bin}" />
     <pathelement location="${src}" />
       <pathelement location="${libs}"/>
 	  <pathelement location="${libs}/junit.jar" />
+	  <path refid = "classpath.base" />
     </path>
 
-<target name="compile" depends="">
-    <javac sourcepath="" srcdir="."
-       destdir="." includeAntRuntime="false">
+	<target name = "clean" >
+      <delete verbose = "${full-compile}">
+         <fileset dir = "${bin}" includes = "**/*.class" />
+      </delete>
+   </target>
+	
+<target name="compile" depends="clean">
+    <javac srcdir="${src}"
+       destdir="${bin}" includeAntRuntime="false">
     <include name="**/*.java"/>
     <exclude name="**/Example.java"/>
 	<classpath refid="class.path"/>
 	</javac>
 </target>
 
-<target name="test">
+<target name="test" depends="compile">
   <junit fork="yes" haltonfailure="yes">
   <classpath refid="class.path"/>
     <test name="${test.class.name}" />
@@ -38,6 +47,14 @@
     
   </junit>
 </target>
+<target name="test3" depends="compile">
+      <junit>
+         <classpath refid = "class.path" />
+         <formatter type = "brief" usefile = "false" />
+         <test name = "TestMessageUtil" />
+      </junit>
+</target>
+
 <target name="path">
 <property name="myclasspath" refid="class.path"/>
   <echo message="Classpath = ${myclasspath}"/>
